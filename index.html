@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Coffee — Hương Vị Cà Phê Thủ Công & Không Gian An Yên</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Cấu hình màu sắc thương hiệu The Coffee -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              cream: '#FAF7F2',       // Nền kem sáng ấm
+              sand: '#EFE8DE',        // Nền phụ, viền
+              caramel: '#C8935B',     // Điểm nhấn vàng caramel
+              roast: '#6F4E37',       // Nâu hạt cà phê
+              dark: '#211714',        // Nâu đen espresso sâu thẳm
+              muted: '#7A6E67',       // Chữ phụ mộc mạc
+            }
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Thanh cuộn tinh tế */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #FAF7F2; }
+    ::-webkit-scrollbar-thumb { background: #C8935B; border-radius: 9999px; }
+  </style>
+</head>
+
+<body class="bg-brand-cream text-brand-dark font-sans antialiased selection:bg-brand-caramel selection:text-white">
+
+  <!-- ==================== 1. THANH ĐIỀU HƯỚNG (NAVBAR) ==================== -->
+  <header class="sticky top-0 z-50 bg-brand-cream/95 backdrop-blur-md border-b border-brand-sand/70 transition-all">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-2.5 group">
+        <span class="w-9 h-9 rounded-full bg-brand-roast text-brand-cream flex items-center justify-center font-serif font-bold text-lg shadow-sm group-hover:bg-brand-caramel transition-colors">
+          ☕
+        </span>
+        <span class="font-serif text-2xl font-bold tracking-tight text-brand-dark">
+          The Coffee<span class="text-brand-caramel">.</span>
+        </span>
+      </a>
+
+      <!-- Menu Điều Hướng Desktop (Có "Các món nước") -->
+      <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-brand-muted">
+        <a href="#home" class="hover:text-brand-dark transition-colors">Trang chủ</a>
+        <a href="#features" class="hover:text-brand-dark transition-colors">Lợi ích</a>
+        <a href="#drinks-menu" class="text-brand-dark font-semibold hover:text-brand-caramel transition-colors flex items-center gap-1">
+          Các món nước
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-caramel"></span>
+        </a>
+        <a href="#combo-offer" class="hover:text-brand-dark transition-colors">Ưu đãi</a>
+        <a href="#space" class="hover:text-brand-dark transition-colors">Không gian</a>
+        <a href="#reviews" class="hover:text-brand-dark transition-colors">Đánh giá</a>
+        <a href="#booking" class="hover:text-brand-dark transition-colors">Đặt bàn</a>
+      </nav>
+
+      <!-- Nút Giỏ Hàng & CTA -->
+      <div class="flex items-center gap-3">
+        <!-- Nút Giỏ Hàng -->
+        <button onclick="toggleCartDrawer()" class="relative p-2.5 rounded-full hover:bg-brand-sand transition text-brand-dark" title="Giỏ hàng">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+          </svg>
+          <span id="cart-badge" class="absolute -top-0.5 -right-0.5 bg-brand-caramel text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+        </button>
+
+        <a href="#booking" class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-brand-dark text-brand-cream hover:bg-brand-roast shadow-sm hover:shadow transition-all duration-200">
+          Đặt Bàn Ngay
+        </a>
+
+        <!-- Nút Mobile Menu Toggle -->
+        <button id="menu-toggle" aria-label="Toggle menu" class="md:hidden p-2 rounded-lg text-brand-dark hover:bg-brand-sand transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-6 border-b border-brand-sand bg-brand-cream text-center font-medium space-y-3">
+      <a href="#home" class="block py-2 text-brand-dark hover:text-brand-caramel">Trang chủ</a>
+      <a href="#features" class="block py-2 text-brand-muted hover:text-brand-dark">Lợi ích</a>
+      <a href="#drinks-menu" class="block py-2 text-brand-dark font-semibold">Các món nước (20 món)</a>
+      <a href="#combo-offer" class="block py-2 text-brand-muted hover:text-brand-dark">Ưu đãi sáng</a>
+      <a href="#space" class="block py-2 text-brand-muted hover:text-brand-dark">Không gian</a>
+      <a href="#reviews" class="block py-2 text-brand-muted hover:text-brand-dark">Đánh giá</a>
+      <a href="#booking" class="inline-block w-full py-2.5 rounded-full bg-brand-dark text-brand-cream text-xs font-semibold uppercase tracking-wider mt-2">
+        Đặt Bàn Ngay
+      </a>
+    </div>
+  </header>
+
+
+  <!-- ==================== 2. HERO SECTION ==================== -->
+  <section id="home" class="relative overflow-hidden pt-10 pb-16 lg:pt-16 lg:pb-24">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        
+        <!-- Cột Nội Dung Bên Trái -->
+        <div class="lg:col-span-7 flex flex-col items-start text-left">
+          
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-sand text-brand-roast text-xs font-semibold uppercase tracking-wider mb-6">
+            <span class="w-2 h-2 rounded-full bg-brand-caramel animate-ping"></span>
+            100% Cà Phê Hạt Rang Mộc Tự Nhiên
+          </div>
+
+          <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl text-brand-dark font-bold leading-[1.2] tracking-tight mb-6">
+            Tận hưởng trọn vẹn <span class="italic font-normal text-brand-roast underline decoration-brand-caramel/50 underline-offset-8">vị cà phê</span> nguyên bản.
+          </h1>
+
+          <p class="text-base sm:text-lg text-brand-muted max-w-xl font-normal leading-relaxed mb-8">
+            The Coffee mang đến trải nghiệm tách cà phê thủ công được tuyển chọn kỹ lưỡng từ cao nguyên đất đỏ, đồng hành cùng bạn trong không gian thư thái và bình yên nhất.
+          </p>
+
+          <!-- Nút Kêu gọi Hành động (CTA) -->
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto">
+            <a href="#drinks-menu" class="inline-flex items-center justify-center px-8 py-4 rounded-full bg-brand-roast hover:bg-brand-dark text-white font-medium text-sm shadow-md hover:shadow-lg transition-all duration-300">
+              Khám phá các món nước
+              <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+              </svg>
+            </a>
+
+            <a href="#space" class="inline-flex items-center justify-center px-8 py-4 rounded-full border border-brand-dark/25 hover:border-brand-dark text-brand-dark font-medium text-sm hover:bg-brand-sand/40 transition-all duration-200">
+              Xem không gian quán
+            </a>
+          </div>
+
+          <!-- Thông Số Nổi Bật -->
+          <div class="pt-10 mt-8 border-t border-brand-sand w-full grid grid-cols-3 gap-6">
+            <div>
+              <p class="text-2xl sm:text-3xl font-serif font-bold text-brand-dark">100%</p>
+              <p class="text-xs sm:text-sm text-brand-muted mt-1">Rang mộc tươi mới</p>
+            </div>
+            <div>
+              <p class="text-2xl sm:text-3xl font-serif font-bold text-brand-dark">20+</p>
+              <p class="text-xs sm:text-sm text-brand-muted mt-1">Món nước chọn lọc</p>
+            </div>
+            <div>
+              <p class="text-2xl sm:text-3xl font-serif font-bold text-brand-dark">4.9★</p>
+              <p class="text-xs sm:text-sm text-brand-muted mt-1">50.000+ tín đồ yêu thích</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cột Hình Ảnh Bên Phải -->
+        <div class="lg:col-span-5 relative">
+          <div class="relative mx-auto max-w-md lg:max-w-none">
+            
+            <div class="overflow-hidden rounded-3xl shadow-xl aspect-[4/5] bg-brand-sand">
+              <img 
+                src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1000&q=80" 
+                alt="Không gian quán The Coffee" 
+                class="w-full h-full object-cover object-center hover:scale-105 transition duration-700 ease-out"
+              >
+            </div>
+
+            <!-- Floating Card 1 -->
+            <div class="absolute -bottom-5 -left-5 bg-white/95 backdrop-blur-sm p-4 rounded-2xl shadow-xl border border-brand-sand/60 flex items-center gap-3">
+              <div class="w-11 h-11 rounded-xl bg-brand-sand text-brand-roast flex items-center justify-center font-bold text-lg">
+                ☕
+              </div>
+              <div>
+                <p class="text-xs font-bold text-brand-dark">Cà Phê Muối Biển</p>
+                <p class="text-[11px] text-brand-muted">Kem mặn béo ngậy chuẩn vị</p>
+              </div>
+            </div>
+
+            <!-- Floating Card 2 -->
+            <div class="absolute -top-4 -right-4 bg-white/95 backdrop-blur-sm px-4 py-2.5 rounded-2xl shadow-lg border border-brand-sand/60 flex items-center gap-2">
+              <span class="text-brand-caramel text-base">★</span>
+              <span class="text-xs font-semibold text-brand-dark">Top 10% Quán Được Yêu Thích</span>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== 3. FEATURES & BENEFITS (TÍNH NĂNG & LỢI ÍCH) ==================== -->
+  <section id="features" class="py-20 bg-brand-sand/30 border-y border-brand-sand">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <span class="inline-block text-xs font-bold uppercase tracking-widest text-brand-caramel bg-brand-sand px-3.5 py-1.5 rounded-full mb-3">
+          Giá Trị Nguyên Bản
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-brand-dark tracking-tight">
+          Hương Vị Tinh Tế Trong Từng Trải Nghiệm
+        </h2>
+        <p class="text-brand-muted text-sm sm:text-base mt-3">
+          Từng chi tiết được chăm chút tỉ mỉ từ nông trại đến tách cà phê trên tay bạn.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Điểm nhấn 1 -->
+        <div class="group bg-white p-8 rounded-3xl border border-brand-sand shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300">
+          <div class="w-14 h-14 rounded-2xl bg-brand-sand text-brand-roast flex items-center justify-center mb-6 group-hover:bg-brand-roast group-hover:text-white transition-colors duration-300">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3c4.97 0 9 4.03 9 9s-4.03 9-9 9-9-4.03-9-9 4.03-9 9-9z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3c-2.5 4.5-2.5 13.5 0 18"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-serif font-bold text-brand-dark mb-3 group-hover:text-brand-roast transition-colors">
+            Hạt Cà Phê Nguyên Bản
+          </h3>
+          <p class="text-sm text-brand-muted leading-relaxed">
+            Tuyển chọn thủ công từ những gốc cà phê trên cao nguyên đất đỏ màu mỡ. Rang mộc 100% không pha tẩm phẩm màu, giữ trọn vẹn tầng hương quả mọng và mật ong tự nhiên.
+          </p>
+        </div>
+
+        <!-- Điểm nhấn 2 -->
+        <div class="group bg-white p-8 rounded-3xl border border-brand-sand shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300">
+          <div class="w-14 h-14 rounded-2xl bg-brand-sand text-brand-roast flex items-center justify-center mb-6 group-hover:bg-brand-roast group-hover:text-white transition-colors duration-300">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/>
+              <line x1="6" y1="1" x2="6" y2="4" stroke-width="1.8" stroke-linecap="round"/>
+              <line x1="10" y1="1" x2="10" y2="4" stroke-width="1.8" stroke-linecap="round"/>
+              <line x1="14" y1="1" x2="14" y2="4" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-serif font-bold text-brand-dark mb-3 group-hover:text-brand-roast transition-colors">
+            Hương Vị Thủ Công Tinh Tế
+          </h3>
+          <p class="text-sm text-brand-muted leading-relaxed">
+            Giao thoa giữa công nghệ pha máy chuẩn mực của Ý và kỹ thuật nhỏ giọt truyền thống. Mỗi ngụm thức uống đánh thức mọi giác quan bằng sự cân bằng và hậu vị kéo dài.
+          </p>
+        </div>
+
+        <!-- Điểm nhấn 3 -->
+        <div class="group bg-white p-8 rounded-3xl border border-brand-sand shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300">
+          <div class="w-14 h-14 rounded-2xl bg-brand-sand text-brand-roast flex items-center justify-center mb-6 group-hover:bg-brand-roast group-hover:text-white transition-colors duration-300">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+              <circle cx="12" cy="12" r="4" stroke-width="1.8"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-serif font-bold text-brand-dark mb-3 group-hover:text-brand-roast transition-colors">
+            Không Gian Khơi Nguồn Sáng Tạo
+          </h3>
+          <p class="text-sm text-brand-muted leading-relaxed">
+            Thiết kế tối giản ấm cúng, đón nhận ánh sáng ban mai tự nhiên cùng giai điệu nhẹ nhàng. Nơi bạn có thể tập trung hoàn thành công việc hay trò chuyện thân mật.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== 4. SECTION: CÁC MÓN NƯỚC (20 MÓN ĐA DẠNG) ==================== -->
+  <section id="drinks-menu" class="py-20 lg:py-28">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <span class="inline-block px-3.5 py-1.5 rounded-full bg-brand-sand text-brand-roast text-xs font-semibold uppercase tracking-wider mb-3">
+          Menu Nước Đa Dạng
+        </span>
+        <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-dark tracking-tight">
+          Các Món Nước Tuyệt Hảo
+        </h2>
+        <p class="text-brand-muted text-sm sm:text-base mt-3 leading-relaxed">
+          Khám phá 20 thức uống đặc trưng từ cà phê rang mộc chuẩn vị, trà trái cây nhiệt đới thanh mát cho đến các dòng trà sữa béo mịn.
+        </p>
+
+        <!-- Bộ Lọc Danh Mục (Filter Tabs) -->
+        <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mt-8">
+          <button onclick="filterDrinks('all', this)" class="drink-filter-btn px-6 py-2.5 rounded-full text-xs font-bold tracking-wide transition-all duration-200 bg-brand-dark text-white shadow-md">
+            Tất cả (20)
+          </button>
+          <button onclick="filterDrinks('coffee', this)" class="drink-filter-btn px-6 py-2.5 rounded-full text-xs font-bold tracking-wide transition-all duration-200 bg-brand-sand/80 text-brand-dark hover:bg-brand-sand">
+            Cà phê (8)
+          </button>
+          <button onclick="filterDrinks('fruit-tea', this)" class="drink-filter-btn px-6 py-2.5 rounded-full text-xs font-bold tracking-wide transition-all duration-200 bg-brand-sand/80 text-brand-dark hover:bg-brand-sand">
+            Trà trái cây (6)
+          </button>
+          <button onclick="filterDrinks('milk-tea', this)" class="drink-filter-btn px-6 py-2.5 rounded-full text-xs font-bold tracking-wide transition-all duration-200 bg-brand-sand/80 text-brand-dark hover:bg-brand-sand">
+            Trà sữa (6)
+          </button>
+        </div>
+      </div>
+
+      <!-- Lưới 20 Món Nước: 4 Cột Desktop, 2 Cột Tablet, 1 Cột Mobile -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-7" id="drinks-grid">
+
+        <!-- Món 1 -->
+        <div class="drink-card group bg-white rounded-3xl p-4 border border-brand-sand shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between" data-category="coffee">
+          <div>
+            <div class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-brand-sand mb-3.5">
+              <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80" alt="Cà Phê Đen Đá" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-2.5 left-2.5 bg-brand-dark/80 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Cà Phê</span>
+            </div>
+            <h3 class="font-serif font-bold text-lg text-brand-dark group-hover:text-brand-roast transition-colors">Cà Phê Đen Đá</h3>
+            <p class="text-xs text-brand-muted line-clamp-2 mt-1 mb-3">100% Robusta Buôn Ma Thuột rang mộc, đắng đậm đà truyền thống.</p>
+          </div>
+          <div class="pt-3 border-t border-brand-sand flex items-center justify-between">
+            <span class="font-serif font-bold text-base text-brand-roast">32.000đ</span>
+            <button onclick="orderDrink('Cà Phê Đen Đá', 32000)" class="px-4 py-2 rounded-full bg-brand-roast hover:bg-brand-dark text-white text-xs font-semibold shadow hover:shadow-md transition active:scale-95">
+              Đặt hàng ngay
+            </button>
+          </div>
+        </div>
+
+        <!-- Món 2 -->
+        <div class="drink-card group bg-white rounded-3xl p-4 border border-brand-sand shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between" data-category="coffee">
+          <div>
+            <div class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-brand-sand mb-3.5">
+              <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=600&q=80" alt="Cà Phê Sữa Đá" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-2.5 left-2.5 bg-amber-600/90 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Bán Chạy</span>
+            </div>
+            <h3 class="font-serif font-bold text-lg text-brand-dark group-hover:text-brand-roast transition-colors">Cà Phê Sữa Đá Sài Gòn</h3>
+            <p class="text-xs text-brand-muted line-clamp-2 mt-1 mb-3">Cà phê pha phin sánh đậm kết hợp cùng sữa đặc béo ngậy hảo hạng.</p>
+          </div>
+          <div class="pt-3 border-t border-brand-sand flex items-center justify-between">
+            <span class="font-serif font-bold text-base text-brand-roast">35.000đ</span>
+            <button onclick="orderDrink('Cà Phê Sữa Đá Sài Gòn', 35000)" class="px-4 py-2 rounded-full bg-brand-roast hover:bg-brand-dark text-white text-xs font-semibold shadow hover:shadow-md transition active:scale-95">
+              Đặt hàng ngay
+            </button>
+          </div>
+        </div>
+
+        <!-- Món 3 -->
+        <div class="drink-card group bg-white rounded-3xl p-4 border border-brand-sand shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between" data-category="coffee">
+          <div>
+            <div class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-brand-sand mb-3.5">
+              <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=600&q=80" alt="Bạc Xỉu 3 Tầng" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-2.5 left-2.5 bg-brand-dark/80 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Cà Phê</span>
+            </div>
+            <h3 class="font-serif font-bold text-lg text-brand-dark group-hover:text-brand-roast transition-colors">Bạc Xỉu Sữa Tươi 3 Tầng</h3>
+            <p class="text-xs text-brand-muted line-clamp-2 mt-1 mb-3">Sự phối hợp hoàn hảo giữa sữa tươi thanh trùng và chút vị thơm nồng của cà phê.</p>
+          </div>
+          <div class="pt-3 border-t border-brand-sand flex items-center justify-between">
+            <span class="font-serif font-bold text-base text-brand-roast">39.000đ</span>
+            <button onclick="orderDrink('Bạc Xỉu Sữa Tươi 3 Tầng', 39000)" class="px-4 py-2 rounded-full bg-brand-roast hover:bg-brand-dark text-white text-xs font-semibold shadow hover:shadow-md transition active:scale-95">
+              Đặt hàng ngay
+            </button>
+          </div>
+        </div>
+
+        <!-- Món 4 -->
+        <div class="drink-card group bg-white rounded-3xl p-4 border border-brand-sand shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between" data-category="coffee">
+          <div>
+            <div class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-brand-sand mb-3.5">
+              <img src="https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=600&q=80" alt="Cà Phê Muối Biển" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-2.5 left-2.5 bg-brand-caramel backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Signature</span>
+            </div>
+            <h3 class="font-serif font-bold text-lg text-brand-dark group-hover:text-brand-roast transition-colors">Cà Phê Muối Biển Kem Béo</h3>
+            <p class="text-xs text-brand-muted line-clamp-2 mt-1 mb-3">Vị đắng thơm đậm quyện cùng lớp kem muối mặn béo ngậy khó quên.</p>
+          </div>
+          <div class="pt-3 border-t border-brand-sand flex items-center justify-between">
+            <span class="font-serif font-bold text-base text-brand-roast">45.000đ</span>
+            <button onclick="orderDrink('Cà Phê Muối Biển Kem Béo', 45000)" class="px-4 py-2 rounded-full bg-brand-roast hover:bg-brand-dark text-white text-xs font-semibold shadow hover:shadow-md transition active:scale-95">
+              Đặt hàng ngay
+            </button>
+          </div>
+        </div>
+
+        <!-- Món 5 -->
+        <div class="drink-card group bg-white rounded-3xl p-4 border border-brand-sand shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between" data-category="coffee">
+          <div>
+            <div class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-brand-sand mb-3.5">
+              <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=600&q=80" alt="Cappuccino Ý" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-2.5 left-2.5 bg-brand-dark/80 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Pha Máy</span>
+            </div>
+            <h3 class="font-serif font-bold text-lg text-brand-dark group-hover:text-brand-roast transition-colors">Cappuccino Ý Bọt Mịn</h3>
+            <p class="text-xs text-brand-muted line-clamp-2 mt-1 mb-3">Espresso chiết xuất chuẩn Ý phủ lớp bọt sữa dày mịn rắc bột cacao thơm phức.</p>
+          </div>
+          <div class="pt-3 border-t border-brand-sand flex items-center justify-between">
+            <span class="font-serif font-bold text-base text-brand-roast">49.000đ</span>
+            <button onclick="orderDrink('Cappuccino Ý Bọt Mịn', 49000)" class="px-4 py-2 rounded-full bg-brand-roast hover:bg-brand-dark text-white text-xs font-semibold shadow hover:shadow-md transition active:scale-95">
+              Đặt hàng ngay
+            </button>
+          </div>
+        </div>
+
+        <!-- Món 6 -->
+        <div class="drink-card group bg-white rounded-3xl p-4 border border-brand-sand shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between" data-category="coffee">
+          <div>
+            <div class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-brand-sand mb-3.5">
+              <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=600&q=80" alt="Cà Phê Latte" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-2.5 left-2.5 bg-brand-dark/80 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Pha Máy</span>
+            </div>
+            <h3 class="font-serif font-bold text-lg text-brand-dark group-hover:text-brand-roast transition-colors">Cà Phê Latte Hạnh Nhân</h3>
+            <p class="text-xs text-brand-muted line-clamp-2 mt-1 mb-3">Vị đắng nhẹ của hạt Arabica hòa quyện cùng vị ngọt thanh của sữa hạnh nhân.</p>
+          </div>
+          <div class="pt-3 border-t border-brand-sand flex items-center justify-between">
+            <span class="font-serif font-bold text-base text-brand-roast">52.000đ</span>
+            <button onclick="orderDrink('Cà Phê Latte Hạnh Nhân', 52000)" class="px-4 py-2 rounded-full bg-brand-roast hover:bg-brand-dark text-white text-xs font-semibold shadow hover:shadow-md transition active:scale-95">
+              Đặt hàng ngay
+            </button>
+          </div>
+        </div>
+
+        <!-- Món 7 -->
+        <div class="drink-card group bg-white rounded-3xl p-4 border border-brand-sand shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between" data-category="coffee">
+          <div>
+            <div class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-brand-sand mb-3.5">
+              <img src="https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?auto=format&fit=crop&w=600&q=80" alt="Caramel Macchiato" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-2.5 left-2.5 bg-brand-dark/80 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Pha Máy</span>
+            </div>
+            <h3 class="font-serif font-bold text-lg text-brand-dark group-hover:text-brand-roast transition-colors">Caramel Macchiato Nóng/Đá</h3>
+            <p class="text-xs text-brand-muted line-clamp-2 mt-1 mb-3">Lớp sốt caramel vàng óng thơm ngọt trên tầng espresso đậm đà.</p>
+          </div>
+          <div class="pt-3 border-t border-brand-sand flex items-center justify-between">
+            <span class="font-serif font-bold text-base text-brand-roast">55.000đ</span>
+            <button onclick="orderDrink('Caramel Macchiato Nóng/Đá', 55000)" class="px-4 py-2 rounded-full bg-brand-roast hover:bg-brand-dark text-white text-xs font-semibold shadow hover:shadow-md transition active:scale-95">
+              Đặt hàng ngay
+            </button>
+          </div>
+        </div>
+
+        <!-- Món 8 -->
+        <div class="drink-card group bg-white rounded-3xl p-4 border border-brand-sand shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between" data-category="coffee">
+          <div>
+            <div class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-brand-sand mb-3.5">
+              <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=600&q=80" alt="Cold Brew Cam Vàng" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-2.5 left-2.5 bg-brand-caramel backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Ủ Lạnh</span>
+            </div>
+            <h3 class="font-serif font-bold text-lg text-brand-dark group-hover:text-brand-roast transition-colors">Cold Brew Cam Vàng Sả Tươi</h3>
+            <p class="text-xs text-brand-muted line-clamp-2 mt-1 mb-3">Cà phê ủ lạnh 24 giờ hòa cùng tép cam vàng tươi mọng thanh mát dễ uống.</p>
+          </div>
+          <div class="pt-3 border-t border-brand-sand flex items-center justify-between">
+            <span class="font-serif font-bold text-base text-brand-roast">55.000đ</span>
+            <button onclick="orderDrink('Cold Brew Cam Vàng Sả Tươi', 55000)" class="px-4 py-2 rounded-full bg-brand-roast hover:bg-brand-dark text-white text-xs font-semibold shadow hover:shadow-md transition active:scale-95">
+              Đặt hàng ngay
+            </button>
+          </div>
+        </div>
+
+        <!-- Món 9 -->
+        <div class="drink-card group bg-white rounded-3xl p-4 border border-brand-sand shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between" data-category="fruit-tea">
+          <div>
+            <div class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-brand-sand mb-3.5">
+              <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80" alt="Trà Đào Cam Sả" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-2.5 left-2.5 bg-amber-600/90 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Bán Chạy</span>
+            </div>
+            <h3 class="font-serif font-bold text-lg text-brand-dark group-hover:text-brand-roast transition-colors">Trà Đào Cam Sả Tươi</h3>
+            <p class="text-xs text-brand-muted line-clamp-2 mt-1 mb-3">Cốt trà đen đậm đà, miếng đào giòn thơm kết hợp nước cam vắt tươi rói.</p>
+          </div>
+          <div class="pt-3 border-t border-brand-sand flex items-center justify-between">
+            <span class="font-serif font-bold text-base text-brand-roast">45.000đ</span>
+            <button onclick="orderDrink('Trà Đào Cam Sả Tươi', 45000)" class="px-4 py-2 rounded-full bg-brand-roast hover:bg-brand-dark text-white text-xs font-semibold shadow hover:shadow-md transition active:scale-95">
+              Đặt hàng ngay
+            </button>
+          </div>
+        </div>
+
+        <!-- Món 10 -->
+        <div class="drink-card group bg-white rounded-3xl p-4 border border-brand-sand shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between" data-category="fruit-tea">
+          <div>
+            <div class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-brand-sand mb-3.5">
+              <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=600&q=80" alt="Trà Vải Hoa Hồng" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-2.5 left-2.5 bg-pink-700/80 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Thanh Mát</span>
+            </div>
+            <h3 class="font-serif font-bold text-lg text-brand-dark group-hover:text-brand-roast transition-colors">Trà Vải Hoa Hồng Thơm Ngát</h3>
+            <p class="text-xs text-brand-muted line-clamp-2 mt-1 mb-3">Vị ngọt mọng nước từ trái vải thiều hòa lẫn hương nụ hồng sấy thanh nhã.</p>
+          </div>
+          <div class="pt-3 border-t border-brand-sand flex items-center justify-between">
+            <span class="font-serif font-bold text-base text-brand-roast">45.000đ</span>
+            <button onclick="orderDrink('Trà Vải Hoa Hồng Thơm Ngát', 45000)" class="px-4 py-2 rounded-full bg-brand-roast hover:bg-brand-dark text-white text-xs font-semibold shadow hover:shadow-md transition active:scale-95">
+              Đặt hàng ngay
+            </button>
+          </div>
+        </div>
+
+        <!-- Món 11 -->
+        <div class="drink-card group bg-white rounded-3xl p-4 border border-brand-sand shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between" data-category="fruit-tea">
+          <div>
+            <div class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-brand-sand mb-3.5">
+              <img src="https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=600&q=80" alt="Trà Sen Vàng" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-2.5 left-2.5 bg-amber-500 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Đặc Sản</span>
+            </div>
+            <h3 class="font-serif font-bold text-lg text-brand-dark group-hover:text-brand-roast transition-colors">Trà Sen Vàng Củ Năng Giòn</h3>
+            <p class="text-xs text-brand-muted line-clamp-2 mt-1 mb-3">Trà ô long thanh khiết điểm xuyết hạt sen bùi bùi và củ năng giòn sần sật.</p>
+          </div>
+          <div class="pt-3 border-t border-brand-sand flex items-center justify-between">
+            <span class="font-serif font-bold text-base text-brand-roast">49.000đ</span>
+            <button onclick="orderDrink('Trà Sen Vàng Củ Năng Giòn', 49000)" class="px-4 py-2 rounded-full bg-brand-roast hover:bg-brand-dark text-white text-xs font-semibold shadow hover:shadow-md transition active:scale-95">
+              Đặt hàng ngay
+            </button>
+          </div>
+        </div>
+
+        <!-- Món 12 -->
+        <div class="drink-card group bg-white rounded-3xl p-4 border border-brand-sand shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between" data-category="fruit-tea">
+          <div>
+            <div class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-brand-sand mb-3.5">
+              <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80" alt="Trà Ổi Hồng" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-2.5 left-2.5 bg-rose-600/80 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Mới</span>
+            </div>
+            <h3 class="font-serif font-bold text-lg text-brand-dark group-hover:text-brand-roast transition-colors">Trà Ổi Hồng Chanh Leo</h3>
+            <p class="text-xs text-brand-muted line-clamp-2 mt-1 mb-3">Hương ổi xá lị thơm lừng hòa lẫn vị chua dịu sảng khoái từ chanh dây.</p>
+          </div>
+          <div class="pt-3 border-t border-brand-sand flex items-center justify-between">
+            <span class="font-serif font-bold text-base text-brand-roast">42.000đ</span>
+            <button onclick="orderDrink('Trà Ổi Hồng Chanh Leo', 42000)" class="px-4 py-2 rounded-full bg-brand-roast hover:bg-brand-dark text-white text-xs font-semibold shadow hover:shadow-md transition active:scale-95">
+              Đặt hàng ngay
+            </button>
+          </div>
+        </div>
+
+        <!-- Món 13 -->
+        <div class="drink-card group bg-white rounded-3xl p-4 border border-brand-sand shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between" data-category="fruit-tea">
+          <div>
+            <div class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-brand-sand mb-3.5">
+              <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80" alt="Trà Dâu Dưa Hấu" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-2.5 left-2.5 bg-red-600/80 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Giải Nhiệt</span>
+            </div>
+            <h3 class="font-serif font-bold text-lg text-brand-dark group-hover:text-brand-roast transition-colors">Trà Dâu Tây Dưa Hấu Đá Xay</h3>
+            <p class="text-xs text-brand-muted line-clamp-2 mt-1 mb-3">Dâu tây Đà Lạt tươi mọng kết hợp nước dưa hấu thanh mát ép trong ngày.</p>
+          </div>
+          <div class="pt-3 border-t border-brand-sand flex items-center justify-between">
+            <span class="font-serif font-bold text-base text-brand-roast">48.000đ</span>
+            <button onclick="orderDrink('Trà Dâu Tây Dưa Hấu Đá Xay', 48000)" class="px-4 py-2 rounded-full bg-brand-roast hover:bg-brand-dark text-white text-xs font-semibold shadow hover:shadow-md transition active:scale-95">
+              Đặt hàng ngay
+            </button>
+          </div>
+        </div>
+
+        <!-- Món 14 -->
+        <div class="drink-card group bg-white rounded-3xl p-4 border border-brand-sand shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between" data-category="fruit-tea">
+          <div>
+            <div class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-brand-sand mb-3.5">
+              <img src="https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&w=600&q=80" alt="Trà Hoa Cúc Mật Ong" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-2.5 left-2.5 bg-yellow-600/80 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Dưỡng Nhan</span>
+            </div>
+            <h3 class="font-serif font-bold text-lg text-brand-dark group-hover:text-brand-roast transition-colors">Trà Hoa Cúc Mật Ong Nhãn Nhục</h3>
+            <p class="text-xs text-brand-muted line-clamp-2 mt-1 mb-3">Vị ngọt thanh từ mật ong rừng hoa nhãn, giúp an thần và thư thái.</p>
+          </div>
+          <div class="pt-3 border-t border-brand-sand flex items-center justify-between">
+            <span class="font-serif font-bold text-base text-brand-roast">45.000đ</span>
+            <button onclick="orderDrink('Trà Hoa Cúc Mật Ong Nhãn Nhục', 45000)" class="px-4 py-2 rounded-full bg-brand-roast hover:bg-brand-dark text-white text-xs font-semibold shadow hover:shadow-md transition active:scale-95">
+              Đặt hàng ngay
+            </button>
+          </div>
+        </div>
+
+        <!-- Món 15 -->
+        <div class="drink-card group bg-white rounded-3xl p-4 border border-brand-sand shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between" data-category="milk-tea">
+          <div>
+            <div class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-brand-sand mb-3.5">
+              <img src="https://images.unsplash.com/photo-1541658016709-82535e94bc69?auto=format&fit=crop&w=600&q=80" alt="Trà Sữa Ô Long Nướng" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-2.5 left-2.5 bg-amber-700 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Best Seller</span>
+            </div>
+            <h3 class="font-serif font-bold text-lg text-brand-dark group-hover:text-brand-roast transition-colors">Trà Sữa Ô Long Nướng Khói</h3>
+            <p class="text-xs text-brand-muted line-clamp-2 mt-1 mb-3">Hương trà nướng thơm lừng đậm đà kết hợp sữa tươi béo ngậy không ngấy.</p>
+          </div>
+          <div class="pt-3 border-t border-brand-sand flex items-center justify-between">
+            <span class="font-serif font-bold text-base text-brand-roast">48.000đ</span>
+            <button onclick="orderDrink('Trà Sữa Ô Long Nướng Khói', 48000)" class="px-4 py-2 rounded-full bg-brand-roast hover:bg-brand-dark text-white text-xs font-semibold shadow hover:shadow-md transition active:scale-95">
+              Đặt hàng ngay
+            </button>
+          </div>
+        </div>
+
+        <!-- Món 16 -->
+        <div class="drink-card group bg-white rounded-3xl p-4 border border-brand-sand shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between" data-category="milk-tea">
+          <div>
+            <div class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-brand-sand mb-3.5">
+              <img src="https://images.unsplash.com/photo-1527661591475-527312dd65f5?auto=format&fit=crop&w=600&q=80" alt="Trà Sữa Trân Châu" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-2.5 left-2.5 bg-brand-dark/80 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Trà Sữa</span>
+            </div>
+            <h3 class="font-serif font-bold text-lg text-brand-dark group-hover:text-brand-roast transition-colors">Trà Sữa Trân Châu Hoàng Kim</h3>
+            <p class="text-xs text-brand-muted line-clamp-2 mt-1 mb-3">Vị trà đen sánh thơm phối hạt trân châu vàng dẻo dai nấu mật ong.</p>
+          </div>
+          <div class="pt-3 border-t border-brand-sand flex items-center justify-between">
+            <span class="font-serif font-bold text-base text-brand-roast">45.000đ</span>
+            <button onclick="orderDrink('Trà Sữa Trân Châu Hoàng Kim', 45000)" class="px-4 py-2 rounded-full bg-brand-roast hover:bg-brand-dark text-white text-xs font-semibold shadow hover:shadow-md transition active:scale-95">
+              Đặt hàng ngay
+            </button>
+          </div>
+        </div>
+
+        <!-- Món 17 -->
+        <div class="drink-card group bg-white rounded-3xl p-4 border border-brand-sand shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between" data-category="milk-tea">
+          <div>
+            <div class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-brand-sand mb-3.5">
+              <img src="https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=600&q=80" alt="Trà Ô Long Macchiato" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-2.5 left-2.5 bg-brand-caramel backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Macchiato</span>
+            </div>
+            <h3 class="font-serif font-bold text-lg text-brand-dark group-hover:text-brand-roast transition-colors">Trà Ô Long Kem Cheese Mặn</h3>
+            <p class="text-xs text-brand-muted line-clamp-2 mt-1 mb-3">Trà ô long thanh vị phía dưới, phủ lớp kem cheese New Zealand sánh mịn.</p>
+          </div>
+          <div class="pt-3 border-t border-brand-sand flex items-center justify-between">
+            <span class="font-serif font-bold text-base text-brand-roast">50.000đ</span>
+            <button onclick="orderDrink('Trà Ô Long Kem Cheese Mặn', 50000)" class="px-4 py-2 rounded-full bg-brand-roast hover:bg-brand-dark text-white text-xs font-semibold shadow hover:shadow-md transition active:scale-95">
+              Đặt hàng ngay
+            </button>
+          </div>
+        </div>
+
+        <!-- Món 18 -->
+        <div class="drink-card group bg-white rounded-3xl p-4 border border-brand-sand shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between" data-category="milk-tea">
+          <div>
+            <div class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-brand-sand mb-3.5">
+              <img src="https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=600&q=80" alt="Matcha Latte" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-2.5 left-2.5 bg-emerald-700 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Nhật Bản</span>
+            </div>
+            <h3 class="font-serif font-bold text-lg text-brand-dark group-hover:text-brand-roast transition-colors">Trà Xanh Matcha Latte</h3>
+            <p class="text-xs text-brand-muted line-clamp-2 mt-1 mb-3">Bột Matcha Uji chuẩn Nhật Bản nguyên chất quyện cùng sữa tươi ấm dịu.</p>
+          </div>
+          <div class="pt-3 border-t border-brand-sand flex items-center justify-between">
+            <span class="font-serif font-bold text-base text-brand-roast">55.000đ</span>
+            <button onclick="orderDrink('Trà Xanh Matcha Latte', 55000)" class="px-4 py-2 rounded-full bg-brand-roast hover:bg-brand-dark text-white text-xs font-semibold shadow hover:shadow-md transition active:scale-95">
+              Đặt hàng ngay
+            </button>
+          </div>
+        </div>
+
+        <!-- Món 19 -->
+        <div class="drink-card group bg-white rounded-3xl p-4 border border-brand-sand shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between" data-category="milk-tea">
+          <div>
+            <div class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-brand-sand mb-3.5">
+              <img src="https://images.unsplash.com/photo-1571934811356-5cc061b6821f?auto=format&fit=crop&w=600&q=80" alt="Trà Sữa Lài" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-2.5 left-2.5 bg-brand-dark/80 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Trà Sữa</span>
+            </div>
+            <h3 class="font-serif font-bold text-lg text-brand-dark group-hover:text-brand-roast transition-colors">Trà Sữa Lài Trân Châu Trắng</h3>
+            <p class="text-xs text-brand-muted line-clamp-2 mt-1 mb-3">Hương hoa lài thơm ngát kết hợp thạch trân châu trắng giòn sần sật.</p>
+          </div>
+          <div class="pt-3 border-t border-brand-sand flex items-center justify-between">
+            <span class="font-serif font-bold text-base text-brand-roast">46.000đ</span>
+            <button onclick="orderDrink('Trà Sữa Lài Trân Châu Trắng', 46000)" class="px-4 py-2 rounded-full bg-brand-roast hover:bg-brand-dark text-white text-xs font-semibold shadow hover:shadow-md transition active:scale-95">
+              Đặt hàng ngay
+            </button>
+          </div>
+        </div>
+
+        <!-- Món 20 -->
+        <div class="drink-card group bg-white rounded-3xl p-4 border border-brand-sand shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between" data-category="milk-tea">
+          <div>
+            <div class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-brand-sand mb-3.5">
+              <img src="https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?auto=format&fit=crop&w=600&q=80" alt="Cacao Kem Trứng" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-2.5 left-2.5 bg-amber-800 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Đặc Biệt</span>
+            </div>
+            <h3 class="font-serif font-bold text-lg text-brand-dark group-hover:text-brand-roast transition-colors">Cacao Sữa Tươi Kem Trứng Khò</h3>
+            <p class="text-xs text-brand-muted line-clamp-2 mt-1 mb-3">Cacao nguyên chất đậm thơm phủ lớp kem trứng béo ngậy khò đường caramen giòn tan.</p>
+          </div>
+          <div class="pt-3 border-t border-brand-sand flex items-center justify-between">
+            <span class="font-serif font-bold text-base text-brand-roast">52.000đ</span>
+            <button onclick="orderDrink('Cacao Sữa Tươi Kem Trứng Khò', 52000)" class="px-4 py-2 rounded-full bg-brand-roast hover:bg-brand-dark text-white text-xs font-semibold shadow hover:shadow-md transition active:scale-95">
+              Đặt hàng ngay
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== 5. OFFER & PRICE (HỘP ƯU ĐÃI COMBO SÁNG) ==================== -->
+  <section id="combo-offer" class="py-16 bg-brand-sand/40 border-y border-brand-sand">
+    <div class="max-w-4xl mx-auto px-6">
+      
+      <div class="relative bg-gradient-to-br from-brand-dark via-stone-900 to-brand-dark text-white rounded-3xl p-8 sm:p-12 shadow-2xl overflow-hidden border border-brand-roast/40">
+        
+        <div class="absolute -right-16 -top-16 w-64 h-64 bg-brand-caramel/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -left-16 -bottom-16 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 text-xs font-semibold uppercase tracking-wider mb-6">
+          <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+          Ưu Đãi Giờ Vàng
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+          
+          <div class="md:col-span-7 space-y-4">
+            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-white leading-tight">
+              Combo Khởi Sắc Buổi Sáng — <span class="text-amber-400">Tiết kiệm 30%</span>
+            </h2>
+            <p class="text-brand-sand/80 text-sm sm:text-base leading-relaxed">
+              Trọn gói năng lượng cho ngày mới: <strong class="text-white">01 Ly Cà Phê Thủ Công Tự Chọn</strong> + <strong class="text-white">01 Bánh Croissant Sừng Bò Bơ Pháp</strong> nướng nóng giòn rụm thơm lừng.
+            </p>
+
+            <div class="pt-2 flex items-center gap-3">
+              <span class="text-xs text-brand-sand/80">Ưu đãi kết thúc sau:</span>
+              <div class="flex items-center gap-1.5 font-mono text-xs font-bold text-amber-300 bg-black/40 px-3 py-1.5 rounded-lg border border-white/10">
+                <span id="hours" class="bg-white/10 px-1.5 py-0.5 rounded">02</span>:
+                <span id="minutes" class="bg-white/10 px-1.5 py-0.5 rounded">45</span>:
+                <span id="seconds" class="bg-white/10 px-1.5 py-0.5 rounded">12</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="md:col-span-5 bg-white/5 backdrop-blur-sm p-6 sm:p-8 rounded-2xl border border-white/10 text-center flex flex-col items-center justify-center">
+            <p class="text-xs text-brand-sand/80 uppercase tracking-widest font-semibold mb-1">Giá Ưu Đãi Đặc Biệt</p>
+            
+            <div class="flex items-baseline justify-center gap-3 my-2">
+              <span class="text-3xl sm:text-4xl font-serif font-bold text-amber-400">45.000đ</span>
+              <span class="text-sm sm:text-base text-brand-sand/60 line-through">65.000đ</span>
+            </div>
+            
+            <p class="text-[11px] text-brand-sand/70 mb-5">Áp dụng dùng tại quán hoặc mang đi</p>
+
+            <button onclick="orderDrink('Combo Khởi Sắc Buổi Sáng', 45000)" class="w-full py-4 px-6 rounded-full font-bold text-sm bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-brand-dark shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2">
+              <span>Đặt Ngay Kẻo Lỡ</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+              </svg>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== 6. SOCIAL PROOF (BẰNG CHỨNG XÃ HỘI) ==================== -->
+  <section id="reviews" class="py-20 lg:py-24">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <div class="inline-flex items-center gap-1.5 text-amber-500 mb-3 text-sm">
+          ★★★★★
+          <span class="text-xs font-semibold text-brand-dark ml-1.5">4.9/5 Đánh giá trải nghiệm</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-brand-dark tracking-tight">
+          Được yêu thích bởi hơn 50.000+ tín đồ cà phê
+        </h2>
+        <p class="text-brand-muted text-sm sm:text-base mt-3">
+          Niềm cảm hứng lớn nhất của chúng tôi là được lắng nghe nụ cười và cảm nhận trọn vẹn từ thực khách mỗi ngày.
+        </p>
+      </div>
+
+      <!-- 3 Testimonial Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Review 1 -->
+        <div class="bg-white p-8 rounded-3xl border border-brand-sand shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-1 text-amber-400 mb-4 text-sm">
+              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            </div>
+            <p class="text-sm text-brand-dark leading-relaxed italic mb-6">
+              "Vị Pour Over ở đây thanh nhẹ nhưng đượm mùi hoa quả chín rất rõ ràng. Không gian yên tĩnh lạ kỳ, ngồi làm việc cả buổi sáng cảm thấy đầu óc vô cùng thư thái."
+            </p>
+          </div>
+          <div class="flex items-center gap-3.5 pt-4 border-t border-brand-sand">
+            <img class="w-11 h-11 rounded-full object-cover ring-2 ring-brand-sand" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="Trần Minh Hạnh">
+            <div>
+              <h4 class="text-sm font-bold text-brand-dark">Trần Minh Hạnh</h4>
+              <p class="text-xs text-brand-caramel font-medium">UI/UX Designer</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 2 -->
+        <div class="bg-white p-8 rounded-3xl border border-brand-sand shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-1 text-amber-400 mb-4 text-sm">
+              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            </div>
+            <p class="text-sm text-brand-dark leading-relaxed italic mb-6">
+              "Cold Brew Cam Sả và Cà phê muối ở The Coffee chính là món ruột của mình. Vị béo mặn của lớp kem hòa quyện cùng cốt cà phê thơm nức không đâu có được."
+            </p>
+          </div>
+          <div class="flex items-center gap-3.5 pt-4 border-t border-brand-sand">
+            <img class="w-11 h-11 rounded-full object-cover ring-2 ring-brand-sand" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" alt="Lê Quang Huy">
+            <div>
+              <h4 class="text-sm font-bold text-brand-dark">Lê Quang Huy</h4>
+              <p class="text-xs text-brand-caramel font-medium">Nhiếp ảnh gia tự do</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 3 -->
+        <div class="bg-white p-8 rounded-3xl border border-brand-sand shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-1 text-amber-400 mb-4 text-sm">
+              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            </div>
+            <p class="text-sm text-brand-dark leading-relaxed italic mb-6">
+              "Bánh Croissant nướng bơ giòn rụm chấm cùng Latte nóng thực sự là một trải nghiệm tuyệt đỉnh. Nhân viên quán thân thiện, lịch thiệp và vô cùng chuyên nghiệp."
+            </p>
+          </div>
+          <div class="flex items-center gap-3.5 pt-4 border-t border-brand-sand">
+            <img class="w-11 h-11 rounded-full object-cover ring-2 ring-brand-sand" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&q=80" alt="Ngọc Ánh">
+            <div>
+              <h4 class="text-sm font-bold text-brand-dark">Nguyễn Ngọc Ánh</h4>
+              <p class="text-xs text-brand-caramel font-medium">Content Creator</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Trust Badges Foody / Tripadvisor -->
+      <div class="mt-14 text-center pt-8 border-t border-brand-sand">
+        <p class="text-xs font-semibold uppercase tracking-widest text-brand-muted mb-5">
+          Được vinh danh & đánh giá cao trên các nền tảng ẩm thực uy tín
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-8 sm:gap-14 opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300 text-sm font-semibold tracking-wider text-brand-dark">
+          <span class="flex items-center gap-1.5">🍽️ Foody.vn</span>
+          <span class="flex items-center gap-1.5">🦉 Tripadvisor (Top 10%)</span>
+          <span class="flex items-center gap-1.5">📍 Google Maps (4.9★)</span>
+          <span class="flex items-center gap-1.5">☕ Vietnam Coffee Guide</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ==================== 7. KHÔNG GIAN (GALLERY) ==================== -->
+  <section id="space" class="py-20 bg-brand-sand/30 border-y border-brand-sand">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-wider text-brand-caramel">Không Gian Trải Nghiệm</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-brand-dark mt-2">
+            Góc Bình Yên Giữa Lòng Đô Thị
+          </h2>
+        </div>
+        <p class="text-brand-muted text-sm max-w-md mt-4 md:mt-0">
+          Từng góc bàn đón nắng, hương cà phê mới rang và mảng xanh tĩnh lặng đều được sắp đặt tỉ mỉ cho giây phút của bạn.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="rounded-2xl overflow-hidden aspect-[3/4] bg-brand-sand shadow-sm group">
+          <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80" alt="Góc đọc sách" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+        </div>
+        <div class="rounded-2xl overflow-hidden aspect-[3/4] bg-brand-sand shadow-sm group">
+          <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=600&q=80" alt="Quầy bar mở" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+        </div>
+        <div class="rounded-2xl overflow-hidden aspect-[3/4] bg-brand-sand shadow-sm group">
+          <img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=600&q=80" alt="Góc làm việc" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+        </div>
+        <div class="rounded-2xl overflow-hidden aspect-[3/4] bg-brand-sand shadow-sm group">
+          <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=600&q=80" alt="Sân ngoài trời" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ==================== 8. FORM ĐẶT BÀN (BOOKING) ==================== -->
+  <section id="booking" class="py-20 bg-brand-dark text-brand-cream relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <div class="lg:col-span-5 space-y-6">
+          <span class="text-xs font-semibold uppercase tracking-wider text-brand-caramel">Giữ Chỗ Trước</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold leading-tight">
+            Đặt bàn cho buổi hẹn trọn vẹn tại The Coffee.
+          </h2>
+          <p class="text-brand-sand/70 text-sm leading-relaxed">
+            Nếu bạn đi theo nhóm đông hoặc muốn chuẩn bị trước chỗ ngồi làm việc yên tĩnh, hãy để lại thông tin để chúng tôi phục vụ chu đáo nhất.
+          </p>
+
+          <div class="space-y-4 pt-4 border-t border-white/10 text-sm">
+            <div class="flex items-start gap-3">
+              <span class="text-brand-caramel text-base">📍</span>
+              <div>
+                <p class="font-semibold text-white">Địa chỉ quán</p>
+                <p class="text-brand-sand/70 text-xs">Phạm Văn Thuận, Biên Hòa, Đồng Nai</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="text-brand-caramel text-base">⏰</span>
+              <div>
+                <p class="font-semibold text-white">Giờ mở cửa</p>
+                <p class="text-brand-sand/70 text-xs">07:00 - 22:30 (Mở cửa tất cả các ngày trong tuần)</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="text-brand-caramel text-base">📞</span>
+              <div>
+                <p class="font-semibold text-white">Hotline hỗ trợ</p>
+                <p class="text-brand-sand/70 text-xs">0909 123 456 (Đặt bàn & Giao hàng)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7">
+          <form id="reservation-form" onsubmit="handleReservation(event)" class="bg-white/5 backdrop-blur-md p-8 sm:p-10 rounded-3xl border border-white/10 space-y-4">
+            <h3 class="font-serif text-2xl font-bold text-white mb-2">Thông Tin Đặt Bàn</h3>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-semibold uppercase text-brand-sand/70 mb-2">Họ & Tên</label>
+                <input type="text" name="fullname" required placeholder="Nguyễn Văn A" class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-brand-sand/40 text-sm focus:outline-none focus:border-brand-caramel">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold uppercase text-brand-sand/70 mb-2">Số Điện Thoại</label>
+                <input type="tel" name="phone" required placeholder="0901 xxx xxx" class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-brand-sand/40 text-sm focus:outline-none focus:border-brand-caramel">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-xs font-semibold uppercase text-brand-sand/70 mb-2">Ngày</label>
+                <input type="date" name="date" required class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white text-sm focus:outline-none focus:border-brand-caramel">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold uppercase text-brand-sand/70 mb-2">Giờ Đến</label>
+                <input type="time" name="time" required class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white text-sm focus:outline-none focus:border-brand-caramel">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold uppercase text-brand-sand/70 mb-2">Số Lượng Khách</label>
+                <select name="guests" class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white text-sm focus:outline-none focus:border-brand-caramel [&>option]:text-brand-dark">
+                  <option value="1 - 2 người">1 - 2 người</option>
+                  <option value="3 - 4 người">3 - 4 người</option>
+                  <option value="5 - 8 người">5 - 8 người</option>
+                  <option value="Nhóm trên 8 người">Nhóm trên 8 người</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold uppercase text-brand-sand/70 mb-2">Ghi Chú Đặc Biệt</label>
+              <textarea name="notes" rows="3" placeholder="Ví dụ: Bàn gần cửa sổ đón nắng, có ổ cắm điện..." class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-brand-sand/40 text-sm focus:outline-none focus:border-brand-caramel"></textarea>
+            </div>
+
+            <button type="submit" id="submit-booking-btn" class="w-full py-4 rounded-xl bg-brand-caramel hover:bg-brand-roast text-white font-semibold text-sm transition duration-200 shadow-lg flex items-center justify-center gap-2">
+              <span id="booking-btn-text">Xác Nhận Đặt Bàn Ngay</span>
+              <svg id="booking-btn-spinner" class="hidden w-4 h-4 animate-spin text-white" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ==================== 9. FOOTER & REASSURANCE (CHÂN TRANG) ==================== -->
+  <footer class="bg-brand-dark text-brand-sand">
+    
+    <!-- Trust Badges Bar -->
+    <div class="border-b border-white/10 bg-black/20">
+      <div class="max-w-7xl mx-auto px-6 lg:px-12 py-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left">
+          
+          <div class="flex items-center justify-center md:justify-start gap-4">
+            <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-amber-400 text-lg">
+              🚚
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-white">Miễn phí giao hàng</h4>
+              <p class="text-xs text-brand-sand/70">Áp dụng cho mọi đơn từ 99.000đ</p>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-center md:justify-start gap-4">
+            <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-amber-400 text-lg">
+              🔄
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-white">Đổi trả nếu không hợp vị</h4>
+              <p class="text-xs text-brand-sand/70">Pha mới 100% không phụ thu chi phí</p>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-center md:justify-start gap-4">
+            <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-amber-400 text-lg">
+              ⚡
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-white">Giao nhanh dưới 30 phút</h4>
+              <p class="text-xs text-brand-sand/70">Giữ trọn độ nóng và hương vị thơm béo</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 Cột Footer -->
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 py-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
+        
+        <!-- Cột 1 -->
+        <div class="lg:col-span-4 space-y-4">
+          <a href="#" class="inline-flex items-center gap-2 text-2xl font-serif font-bold text-white">
+            <span class="w-8 h-8 rounded-full bg-brand-roast text-white flex items-center justify-center text-sm">☕</span>
+            The Coffee<span class="text-brand-caramel">.</span>
+          </a>
+          <p class="text-sm text-brand-sand/70 leading-relaxed pr-4">
+            Nơi kết nối những tâm hồn yêu cà phê nguyên bản. Chúng tôi trân trọng từng hạt cà phê thu hoạch thủ công và không gian sẻ chia bình dị.
+          </p>
+          <div class="flex items-center gap-4 pt-2">
+            <a href="#" class="w-9 h-9 rounded-full bg-white/10 hover:bg-brand-caramel text-white flex items-center justify-center text-xs transition">Fb</a>
+            <a href="#" class="w-9 h-9 rounded-full bg-white/10 hover:bg-brand-caramel text-white flex items-center justify-center text-xs transition">Ig</a>
+            <a href="#" class="w-9 h-9 rounded-full bg-white/10 hover:bg-brand-caramel text-white flex items-center justify-center text-xs transition">Tk</a>
+          </div>
+        </div>
+
+        <!-- Cột 2 -->
+        <div class="lg:col-span-2 space-y-3">
+          <h4 class="text-sm font-bold uppercase tracking-wider text-white">Khám Phá</h4>
+          <ul class="space-y-2.5 text-xs text-brand-sand/70">
+            <li><a href="#drinks-menu" class="hover:text-brand-caramel transition">Các món nước (20 món)</a></li>
+            <li><a href="#features" class="hover:text-brand-caramel transition">Câu chuyện hạt cà phê</a></li>
+            <li><a href="#combo-offer" class="hover:text-brand-caramel transition">Combo ưu đãi sáng</a></li>
+            <li><a href="#booking" class="hover:text-brand-caramel transition">Cơ hội việc làm</a></li>
+          </ul>
+        </div>
+
+        <!-- Cột 3 -->
+        <div class="lg:col-span-2 space-y-3">
+          <h4 class="text-sm font-bold uppercase tracking-wider text-white">Hỗ Trợ</h4>
+          <ul class="space-y-2.5 text-xs text-brand-sand/70">
+            <li><a href="#" class="hover:text-brand-caramel transition">Chính sách bảo mật</a></li>
+            <li><a href="#" class="hover:text-brand-caramel transition">Điều khoản dịch vụ</a></li>
+            <li><a href="#" class="hover:text-brand-caramel transition">Quy định giao nhận</a></li>
+            <li><a href="#" class="hover:text-brand-caramel transition">Câu hỏi thường gặp (FAQ)</a></li>
+          </ul>
+        </div>
+
+        <!-- Cột 4 -->
+        <div class="lg:col-span-4 space-y-4">
+          <h4 class="text-sm font-bold uppercase tracking-wider text-white">Đăng Ký Nhận Bản Tin</h4>
+          <p class="text-xs text-brand-sand/70 leading-relaxed">
+            Nhận mã giảm giá 15% cho đơn đầu tiên và câu chuyện văn hóa cà phê độc quyền mỗi tuần.
+          </p>
+          
+          <form class="space-y-2" onsubmit="event.preventDefault(); showToast('Đăng ký nhận tin thành công! Kiểm tra hộp thư của bạn nhé.'); this.reset();">
+            <div class="flex flex-col sm:flex-row gap-2">
+              <input 
+                type="email" 
+                required 
+                placeholder="Nhập email của bạn..." 
+                class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-brand-sand/40 text-xs focus:outline-none focus:border-brand-caramel transition"
+              >
+              <button 
+                type="submit" 
+                class="px-5 py-3 rounded-xl bg-brand-caramel hover:bg-brand-roast text-white font-bold text-xs uppercase tracking-wider transition whitespace-nowrap"
+              >
+                Đăng Ký
+              </button>
+            </div>
+            <p class="text-[10px] text-brand-sand/50">Cam kết bảo mật 100%, không gửi thư rác.</p>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="border-t border-white/10 py-6 text-center text-xs text-brand-sand/60">
+      <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p>© 2026 The Coffee. Giữ trọn tinh hoa cà phê thủ công Việt Nam.</p>
+        <p class="text-[11px]">Được thiết kế tối ưu chuẩn UI/UX & Responsive.</p>
+      </div>
+    </div>
+
+  </footer>
+
+
+  <!-- ==================== DRAWER GIỎ HÀNG SLIDE-OVER ==================== -->
+  <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden pointer-events-none transition-opacity duration-300 opacity-0">
+    <!-- Backdrop -->
+    <div onclick="toggleCartDrawer()" class="absolute inset-0 bg-black/60 transition-opacity"></div>
+    
+    <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
+      <div class="w-screen max-w-md bg-brand-cream border-l border-brand-sand p-6 flex flex-col justify-between shadow-2xl pointer-events-auto transform translate-x-full transition-transform duration-300" id="cart-drawer-panel">
+        <div>
+          <div class="flex items-center justify-between pb-4 border-b border-brand-sand">
+            <h3 class="font-serif text-xl font-bold text-brand-dark flex items-center gap-2">
+              <span>🛒</span> Giỏ Hàng Của Bạn
+            </h3>
+            <button onclick="toggleCartDrawer()" class="text-brand-muted hover:text-brand-dark text-lg font-bold">✕</button>
+          </div>
+
+          <div id="cart-items-list" class="py-4 space-y-3 max-h-[60vh] overflow-y-auto">
+            <p class="text-xs text-brand-muted text-center py-8">Chưa có món nào trong giỏ hàng. Hãy chọn món nước bạn yêu thích!</p>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-brand-sand space-y-3">
+          <div class="flex justify-between items-center text-sm font-bold text-brand-dark">
+            <span>Tổng cộng:</span>
+            <span id="cart-total-price" class="text-lg text-brand-roast font-serif">0đ</span>
+          </div>
+          <button onclick="checkoutCart()" class="w-full py-3.5 rounded-xl bg-brand-dark hover:bg-brand-roast text-white font-bold text-xs uppercase tracking-wider transition">
+            Tiến Hành Thanh Toán
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==================== TOAST THÔNG BÁO TƯƠNG TÁC ==================== -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none bg-brand-dark text-white px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3">
+    <span class="w-7 h-7 rounded-full bg-brand-caramel flex items-center justify-center text-white text-sm font-bold">✓</span>
+    <div>
+      <p id="toast-title" class="text-xs font-bold text-white">Đã thêm món vào đơn!</p>
+      <p id="toast-desc" class="text-[11px] text-brand-sand/70">Món nước đã được cập nhật vào giỏ hàng.</p>
+    </div>
+  </div>
+
+
+  <!-- ==================== JAVASCRIPT XỬ LÝ TOÀN TRANG ==================== -->
+  <script>
+    // 1. Mobile Menu Toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    document.querySelectorAll('#mobile-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+
+    // 2. Lọc Danh Mục Món Nước
+    function filterDrinks(category, buttonElement) {
+      const buttons = document.querySelectorAll('.drink-filter-btn');
+      buttons.forEach(btn => {
+        btn.classList.remove('bg-brand-dark', 'text-white', 'shadow-md');
+        btn.classList.add('bg-brand-sand/80', 'text-brand-dark');
+      });
+      buttonElement.classList.add('bg-brand-dark', 'text-white', 'shadow-md');
+      buttonElement.classList.remove('bg-brand-sand/80', 'text-brand-dark');
+
+      const cards = document.querySelectorAll('.drink-card');
+      cards.forEach(card => {
+        if (category === 'all' || card.getAttribute('data-category') === category) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // 3. Giỏ Hàng & Toast Notification
+    let cart = [];
+    const cartBadge = document.getElementById('cart-badge');
+    const cartDrawer = document.getElementById('cart-drawer');
+    const cartPanel = document.getElementById('cart-drawer-panel');
+    const cartItemsList = document.getElementById('cart-items-list');
+    const cartTotalPrice = document.getElementById('cart-total-price');
+
+    function showToast(title, desc = '') {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-title').innerText = title;
+      document.getElementById('toast-desc').innerText = desc || 'Thông tin đã được ghi nhận.';
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 2500);
+    }
+
+    function toggleCartDrawer() {
+      const isOpen = !cartDrawer.classList.contains('pointer-events-none');
+      if (isOpen) {
+        cartDrawer.classList.add('opacity-0', 'pointer-events-none');
+        cartPanel.classList.add('translate-x-full');
+      } else {
+        renderCart();
+        cartDrawer.classList.remove('opacity-0', 'pointer-events-none');
+        cartPanel.classList.remove('translate-x-full');
+      }
+    }
+
+    function orderDrink(name, price) {
+      cart.push({ name, price });
+      cartBadge.innerText = cart.length;
+      showToast(`Đã chọn: ${name}`, `${price.toLocaleString('vi-VN')}đ • Nhấp biểu tượng giỏ hàng để xem đơn.`);
+    }
+
+    function renderCart() {
+      if (cart.length === 0) {
+        cartItemsList.innerHTML = `<p class="text-xs text-brand-muted text-center py-8">Chưa có món nào trong giỏ hàng. Hãy chọn món nước bạn yêu thích!</p>`;
+        cartTotalPrice.innerText = '0đ';
+        return;
+      }
+
+      let total = 0;
+      let html = '';
+      cart.forEach((item, index) => {
+        total += item.price;
+        html += `
+          <div class="flex items-center justify-between p-3 rounded-xl bg-white border border-brand-sand">
+            <div>
+              <p class="text-xs font-bold text-brand-dark">${item.name}</p>
+              <p class="text-[11px] text-brand-roast font-semibold">${item.price.toLocaleString('vi-VN')}đ</p>
+            </div>
+            <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700 text-xs font-semibold">Xóa</button>
+          </div>
+        `;
+      });
+
+      cartItemsList.innerHTML = html;
+      cartTotalPrice.innerText = `${total.toLocaleString('vi-VN')}đ`;
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      cartBadge.innerText = cart.length;
+      renderCart();
+    }
+
+    function checkoutCart() {
+      if (cart.length === 0) {
+        alert('Giỏ hàng trống! Vui lòng chọn món trước.');
+        return;
+      }
+      alert('Cảm ơn bạn! Đơn hàng của bạn đã được gửi đi và đang được pha chế.');
+      cart = [];
+      cartBadge.innerText = 0;
+      toggleCartDrawer();
+    }
+
+    // =========================================================================
+    // CẤU HÌNH GOOGLE SHEETS: Dán đường dẫn Web App Google Apps Script vào đây:
+    // =========================================================================
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxmo3g45OGBImPBGR3aQJbKHl9DWNymFIlEqlVMGRG2A0zroPLzSIz49vlbF-4h2xSJeQ/exec';
+
+    async function handleReservation(event) {
+      event.preventDefault();
+      const form = event.target;
+      const btn = document.getElementById('submit-booking-btn');
+      const btnText = document.getElementById('booking-btn-text');
+      const btnSpinner = document.getElementById('booking-btn-spinner');
+
+      // Nếu chưa cấu hình URL, hiển thị hướng dẫn
+      if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+        showToast('Chưa kết nối Google Sheet!', 'Vui lòng dán Web App URL vào biến GOOGLE_SCRIPT_URL trong index.html.');
+        return;
+      }
+
+      // Trạng thái đang gửi
+      btn.disabled = true;
+      btnText.innerText = 'Đang lưu vào Google Sheets...';
+      btnSpinner.classList.remove('hidden');
+
+      const formData = new FormData(form);
+
+      try {
+        await fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          body: formData,
+          mode: 'no-cors'
+        });
+
+        showToast('Đặt bàn thành công!', 'Thông tin đã được lưu vào Google Sheets của quán.');
+        form.reset();
+      } catch (error) {
+        console.error('Lỗi đặt bàn:', error);
+        showToast('Lỗi kết nối!', 'Vui lòng thử lại hoặc gọi Hotline 0909 123 456.');
+      } finally {
+        btn.disabled = false;
+        btnText.innerText = 'Xác Nhận Đặt Bàn Ngay';
+        btnSpinner.classList.add('hidden');
+      }
+    }
+
+    // 4. Đồng hồ đếm ngược Combo Sáng (Countdown Timer)
+    let totalSeconds = 2 * 3600 + 45 * 60 + 12;
+    setInterval(() => {
+      if (totalSeconds > 0) {
+        totalSeconds--;
+        const hrs = Math.floor(totalSeconds / 3600);
+        const mins = Math.floor((totalSeconds % 3600) / 60);
+        const secs = totalSeconds % 60;
+        document.getElementById('hours').innerText = hrs.toString().padStart(2, '0');
+        document.getElementById('minutes').innerText = mins.toString().padStart(2, '0');
+        document.getElementById('seconds').innerText = secs.toString().padStart(2, '0');
+      }
+    }, 1000);
+  </script>
+
+</body>
+</html>
